@@ -251,6 +251,10 @@ async def handle_group_message(message: Message) -> None:
         )
 
 
+# ---------------------------------------------------------------------------
+# Botni ishga tushirish
+# ---------------------------------------------------------------------------
+
 async def main() -> None:
     load_config()  # config.json mavjudligini ta'minlash
 
