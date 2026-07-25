@@ -1,0 +1,25 @@
+{
+  "groups": [
+    -1004440120714
+  ],
+  "settings": {
+    "delete_links": true
+  },
+  "whitelist": [],
+  "logs": [
+    {
+      "time": "2026-07-25T11:08:19",
+      "event": "link_deleted",
+      "chat_id": -1004440120714,
+      "user_id": 6699869629,
+      "extra": "https://www.instagram.com/reel/DbNBsIPs_GV/?igsh=NWdxeG5lY3B1aG15"
+    },
+    {
+      "time": "2026-07-25T11:11:49",
+      "event": "link_deleted",
+      "chat_id": -1004440120714,
+      "user_id": 7062235194,
+      "extra": "https://forms.gle/UoerFgA4wpWUoycr7"
+    }
+  ]
+}
