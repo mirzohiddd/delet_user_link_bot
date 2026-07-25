@@ -252,6 +252,35 @@ async def handle_group_message(message: Message) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Soxta HTTP server (faqat Render "Web Service" bepul rejasi uchun kerak)
+# ---------------------------------------------------------------------------
+# Render Web Service turi doim biror portda HTTP javob kutadi, aks holda
+# xizmatni "ishlamayapti" deb hisoblab qayta-qayta o'chirib-yoqishi mumkin.
+# Botning o'zi HTTP so'rov qabul qilmaydi (u faqat Telegram bilan ishlaydi),
+# shuning uchun shu yerda alohida, juda oddiy HTTP server ishga tushiramiz —
+# u faqat "OK" deb javob beradi, Render shuni ko'rib xizmatni tirik deb biladi.
+
+from aiohttp import web
+
+
+async def start_fake_web_server() -> None:
+    async def handle_ping(request):
+        return web.Response(text="Bot ishlab turibdi.")
+
+    app = web.Application()
+    app.router.add_get("/", handle_ping)
+
+    port = int(os.getenv("PORT", 10000))  # Render PORT ni o'zi beradi
+
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, host="0.0.0.0", port=port)
+    await site.start()
+
+    logger.info(f"Soxta HTTP server {port}-portda ishga tushdi (Render health check uchun).")
+
+
+# ---------------------------------------------------------------------------
 # Botni ishga tushirish
 # ---------------------------------------------------------------------------
 
@@ -265,6 +294,14 @@ async def main() -> None:
     )
 
     try:
+        # MUHIM: Portni ENG BIRINCHI bo'lib, hech narsaga to'sqinlik qilmasdan
+        # ochamiz. Shunda Render uni darhol ko'radi, hatto Telegram bilan
+        # ulanishda vaqtinchalik muammo (masalan Conflict xatosi) bo'lsa ham.
+        try:
+            await start_fake_web_server()
+        except Exception as e:
+            logger.error(f"Soxta HTTP serverni ochishda xato: {e}")
+
         await bot.delete_webhook(drop_pending_updates=True)
         await dp.start_polling(bot)
     except Exception as e:
