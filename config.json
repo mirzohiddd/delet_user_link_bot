@@ -1,6 +1,7 @@
 {
   "groups": [
-    -1004440120714
+    -1004440120714,
+    -5358581336
   ],
   "settings": {
     "delete_links": true
@@ -20,6 +21,48 @@
       "chat_id": -1004440120714,
       "user_id": 7062235194,
       "extra": "https://forms.gle/UoerFgA4wpWUoycr7"
+    },
+    {
+      "time": "2026-07-25T17:23:04",
+      "event": "link_deleted",
+      "chat_id": -1004440120714,
+      "user_id": 6699869629,
+      "extra": "https://google.com"
+    },
+    {
+      "time": "2026-07-25T17:23:08",
+      "event": "link_deleted",
+      "chat_id": -1004440120714,
+      "user_id": 6699869629,
+      "extra": "https://google.com"
+    },
+    {
+      "time": "2026-07-25T17:23:19",
+      "event": "link_deleted",
+      "chat_id": -1004440120714,
+      "user_id": 6699869629,
+      "extra": "https://google.com"
+    },
+    {
+      "time": "2026-07-25T17:27:02",
+      "event": "link_deleted",
+      "chat_id": -1004440120714,
+      "user_id": 6699869629,
+      "extra": "https://google.com"
+    },
+    {
+      "time": "2026-09-29T05:39:22",
+      "event": "link_deleted",
+      "chat_id": -5358581336,
+      "user_id": 6699869629,
+      "extra": "https://www.instagram.com/reel/Dd3SCYohxh6/?stkn=MWxvaG5ydWdvZnZhbQ=="
+    },
+    {
+      "time": "2026-09-29T05:39:27",
+      "event": "link_deleted",
+      "chat_id": -5358581336,
+      "user_id": 6699869629,
+      "extra": "https://www.instagram.com/reel/Dd3SCYohxh6/?stkn=MWxvaG5ydWdvZnZhbQ=="
     }
   ]
 }

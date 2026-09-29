@@ -193,11 +193,6 @@ class GroupOnlyFilter(Filter):
     async def __call__(self, message: Message) -> bool:
         return message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP)
 
-
-# ---------------------------------------------------------------------------
-# Bot va Dispatcher
-# ---------------------------------------------------------------------------
-
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
