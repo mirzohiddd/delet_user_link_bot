@@ -26,6 +26,11 @@ from aiogram.enums import ChatType, ChatMemberStatus
 from aiogram.types import Message
 from aiogram.filters import Filter
 
+# Yangi: guruh statistikasi, admin access, join/leave o'chirish
+from database import StatsDatabase
+from group_features import on_startup_group_features, setup_group_features
+from group_settings import load_group_settings
+
 # ---------------------------------------------------------------------------
 # Sozlamalar
 # ---------------------------------------------------------------------------
@@ -288,6 +293,8 @@ async def main() -> None:
         "aks holda u linkli xabarlarni o'chira olmaydi."
     )
 
+    stats_db: StatsDatabase | None = None
+
     try:
         # MUHIM: Portni ENG BIRINCHI bo'lib, hech narsaga to'sqinlik qilmasdan
         # ochamiz. Shunda Render uni darhol ko'radi, hatto Telegram bilan
@@ -297,11 +304,32 @@ async def main() -> None:
         except Exception as e:
             logger.error(f"Soxta HTTP serverni ochishda xato: {e}")
 
+        # Yangi funksiyalar (statistika, admin access, join/leave o'chirish).
+        # Xato bo'lsa ham link bloklash ishlashda davom etadi.
+        try:
+            group_settings = load_group_settings()
+            stats_db = StatsDatabase(group_settings.db_path)
+            stats_db.open()
+            setup_group_features(dp, group_settings, stats_db)
+        except Exception as e:
+            logger.error(f"Statistika modulini ishga tushirishda xato (link bloklash ishlayveradi): {e}")
+            group_settings, stats_db = None, None
+
         await bot.delete_webhook(drop_pending_updates=True)
+
+        if group_settings is not None and stats_db is not None:
+            try:
+                await on_startup_group_features(bot, group_settings, stats_db)
+            except Exception as e:
+                logger.error(f"Guruh huquqlarini tekshirishda xato: {e}")
+
+        # allowed_updates avtomatik aniqlanadi (message, chat_member, callback_query)
         await dp.start_polling(bot)
     except Exception as e:
         logger.critical(f"Botni ishga tushirishda xato: {e}")
     finally:
+        if stats_db is not None:
+            stats_db.close()
         await bot.session.close()
 
 
